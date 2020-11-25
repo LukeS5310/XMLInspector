@@ -25,12 +25,13 @@ namespace XMLInspector
             InitializeComponent();
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        private async void MainWindow_Load(object sender, EventArgs e)
         {
             LBL_Path.Text = Properties.Settings.Default.WorkFolder;
             LBL_LastReportName.Text = Properties.Settings.Default.LastReport;
             string stmp = "";
-            SysChecker.ResolveConnection(ref stmp);
+            //SysChecker.ResolveConnection(ref stmp);
+            stmp = await SysChecker.ResolveConnectionAsync();
             LBL_CONNSTAT.Text = stmp.Split(',')[0];
             LBL_SYSNUMSTOTAL.Text = stmp.Split(',')[1];
         }
@@ -103,14 +104,15 @@ namespace XMLInspector
                         continue;
                     }
                     BW_Process.ReportProgress(-1, XMLFile.Name);
-                    Logger.LogStartNewFile(XMLFile.Name);
+                    Logger.LogStartNewFile(XMLFile.FullName);
                     try
                     {
                         if (SysChecker.IsDBAvailable == true) //check against db of sysnumbers
                         {
                             SysChecker.CheckSysDouble(XElement.Load(XMLFile.FullName).XPathSelectElement("ПачкаВходящихДокументов/ВХОДЯЩАЯ_ОПИСЬ/СистемныйНомерМассива")?.Value.ToString() ?? "", Logger, XMLFile.Name);
                         }
-                        Checker.CheckTarget(XElement.Load(XMLFile.FullName,LoadOptions.SetLineInfo), XMLTypeResolver.Resolve(XMLFile.Name), Logger);
+                        string XMLVersion = UTILS.XMLVersionResolver.ResolveXMLVersion(XMLFile.FullName);
+                        Checker.CheckTarget(XElement.Load(XMLFile.FullName,LoadOptions.SetLineInfo), XMLTypeResolver.Resolve(XMLFile.Name,XMLVersion), Logger);
                         SpisPath = XMLTypeResolver.ResolveSpisPath(XMLFile.Name);
                         if (SpisPath != null)
                         {

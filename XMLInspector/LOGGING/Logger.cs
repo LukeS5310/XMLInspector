@@ -14,9 +14,21 @@ namespace XMLInspector.LOGGING
         private StringBuilder LogString = new StringBuilder();
         public int ErrsFound = 0;
         private string PrePend = "";
-        public void LogStartNewFile(string FileName)
+        public void LogStartNewFile(string FileName) //fullname with path only
         {
             LogString.AppendLine(string.Format("----------------------------------------\r\n{0} {1} Начата проверка файла: {2}", TimeStamp(true), TimeStamp(), FileName));
+            string Version;
+            try
+            {
+               Version = UTILS.XMLVersionResolver.ResolveXMLVersion(FileName);
+                
+            }
+            catch (Exception)
+            {
+
+                Version = "Ошибка определения, путь файла некорректен?";
+            }
+            LogString.AppendLine(string.Format("Версия формата обмена: {0}", Version));
         }
         public void WriteLogMsg(string message, bool IsError = false,bool UsePrePend = false)
         {

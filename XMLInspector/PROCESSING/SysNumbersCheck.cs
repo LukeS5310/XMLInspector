@@ -18,6 +18,12 @@ namespace XMLInspector.PROCESSING
         private static readonly string SysDubDebugConn = "G:\\work\\XMLIN.DB";
         private string CurrConn = "Data Source=";
         public bool IsDBAvailable;
+        public async Task<string> ResolveConnectionAsync()
+        {
+            string stmp = "";
+            await Task.Run(() => ResolveConnection(ref stmp));
+            return stmp;
+        }
         public void ResolveConnection(ref string stmp)
         {
             CurrConn = "Data Source=";

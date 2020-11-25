@@ -42,7 +42,12 @@ namespace XMLInspector.PROCESSING
                 {
                     continue;
                 }
-               
+              
+                if (Node.CannotBeEmpty == true && (XMLTarget.Element(Node.Name).Value == null || XMLTarget.Element(Node.Name).Value == ""))
+                {
+                    Logger.WriteLogMsg(string.Format("ОШИБКА:Тег <{0}> не содержит обязательных данных (Строка {1})", Node.Name, (XMLTarget as IXmlLineInfo)?.LineNumber), true, true);
+                    continue;
+                }
                 if (Node.Name == "НомерВыплатногоДела")
                 {
                    
@@ -61,7 +66,7 @@ namespace XMLInspector.PROCESSING
                 {
                     CheckTarget(XMLTarget.Element(Node.Name),Node.ChildrenList,Logger);
                 }
-
+               
             }
             
 

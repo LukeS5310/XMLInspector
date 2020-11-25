@@ -15,14 +15,16 @@ namespace XMLInspector
             public bool HasChildren; //Есть ли дочерние элементы
             public bool IsMultiple; //Множественный ли элемент
             public List<XMLNode> ChildrenList; //лист с дочерними элементами
+            public bool CannotBeEmpty; // Не может быть пустым
             //expansion should include attributes valuetype etc, not needed atm
-            public XMLNode(string _Name, bool _IsMandatory= true,bool _HasChildren = false, bool _IsMultiple = false,List<XMLNode> _ChildrenList = null)
+            public XMLNode(string _Name, bool _IsMandatory= true,bool _HasChildren = false, bool _IsMultiple = false,List<XMLNode> _ChildrenList = null, bool _CannotBeEmpty = false)
             {
                 Name = _Name;
                 IsMandatory = _IsMandatory;
                 HasChildren = _HasChildren;
                 IsMultiple = _IsMultiple;
                 ChildrenList = _ChildrenList;
+                CannotBeEmpty = _CannotBeEmpty;
             }
         }
     }
