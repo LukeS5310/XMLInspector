@@ -63,7 +63,7 @@
             // 
             this.BTN_SelectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_SelectFolder.Location = new System.Drawing.Point(4, 17);
-            this.BTN_SelectFolder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BTN_SelectFolder.Margin = new System.Windows.Forms.Padding(2);
             this.BTN_SelectFolder.Name = "BTN_SelectFolder";
             this.BTN_SelectFolder.Size = new System.Drawing.Size(56, 24);
             this.BTN_SelectFolder.TabIndex = 0;
@@ -88,9 +88,9 @@
             this.GB_WorkFolder.Controls.Add(this.LBL_Path);
             this.GB_WorkFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GB_WorkFolder.Location = new System.Drawing.Point(9, 10);
-            this.GB_WorkFolder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_WorkFolder.Margin = new System.Windows.Forms.Padding(2);
             this.GB_WorkFolder.Name = "GB_WorkFolder";
-            this.GB_WorkFolder.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_WorkFolder.Padding = new System.Windows.Forms.Padding(2);
             this.GB_WorkFolder.Size = new System.Drawing.Size(344, 50);
             this.GB_WorkFolder.TabIndex = 2;
             this.GB_WorkFolder.TabStop = false;
@@ -99,7 +99,7 @@
             // BTN_Start
             // 
             this.BTN_Start.Location = new System.Drawing.Point(14, 65);
-            this.BTN_Start.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BTN_Start.Margin = new System.Windows.Forms.Padding(2);
             this.BTN_Start.Name = "BTN_Start";
             this.BTN_Start.Size = new System.Drawing.Size(339, 24);
             this.BTN_Start.TabIndex = 3;
@@ -120,9 +120,9 @@
             this.GB_CheckState.Controls.Add(this.label1);
             this.GB_CheckState.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GB_CheckState.Location = new System.Drawing.Point(14, 95);
-            this.GB_CheckState.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_CheckState.Margin = new System.Windows.Forms.Padding(2);
             this.GB_CheckState.Name = "GB_CheckState";
-            this.GB_CheckState.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_CheckState.Padding = new System.Windows.Forms.Padding(2);
             this.GB_CheckState.Size = new System.Drawing.Size(339, 159);
             this.GB_CheckState.TabIndex = 4;
             this.GB_CheckState.TabStop = false;
@@ -235,9 +235,9 @@
             this.GB_Report.Controls.Add(this.BTN_OpenReportFolder);
             this.GB_Report.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GB_Report.Location = new System.Drawing.Point(9, 260);
-            this.GB_Report.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Report.Margin = new System.Windows.Forms.Padding(2);
             this.GB_Report.Name = "GB_Report";
-            this.GB_Report.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Report.Padding = new System.Windows.Forms.Padding(2);
             this.GB_Report.Size = new System.Drawing.Size(344, 98);
             this.GB_Report.TabIndex = 5;
             this.GB_Report.TabStop = false;
@@ -258,7 +258,7 @@
             // 
             this.BTN_OpenLastReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_OpenLastReport.Location = new System.Drawing.Point(4, 69);
-            this.BTN_OpenLastReport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BTN_OpenLastReport.Margin = new System.Windows.Forms.Padding(2);
             this.BTN_OpenLastReport.Name = "BTN_OpenLastReport";
             this.BTN_OpenLastReport.Size = new System.Drawing.Size(334, 24);
             this.BTN_OpenLastReport.TabIndex = 1;
@@ -270,7 +270,7 @@
             // 
             this.BTN_OpenReportFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BTN_OpenReportFolder.Location = new System.Drawing.Point(4, 18);
-            this.BTN_OpenReportFolder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BTN_OpenReportFolder.Margin = new System.Windows.Forms.Padding(2);
             this.BTN_OpenReportFolder.Name = "BTN_OpenReportFolder";
             this.BTN_OpenReportFolder.Size = new System.Drawing.Size(334, 24);
             this.BTN_OpenReportFolder.TabIndex = 0;
@@ -292,9 +292,9 @@
             this.GB_SysNumDoubles.Controls.Add(this.label7);
             this.GB_SysNumDoubles.Controls.Add(this.label5);
             this.GB_SysNumDoubles.Location = new System.Drawing.Point(9, 364);
-            this.GB_SysNumDoubles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SysNumDoubles.Margin = new System.Windows.Forms.Padding(2);
             this.GB_SysNumDoubles.Name = "GB_SysNumDoubles";
-            this.GB_SysNumDoubles.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SysNumDoubles.Padding = new System.Windows.Forms.Padding(2);
             this.GB_SysNumDoubles.Size = new System.Drawing.Size(344, 49);
             this.GB_SysNumDoubles.TabIndex = 6;
             this.GB_SysNumDoubles.TabStop = false;
@@ -351,10 +351,10 @@
             this.Controls.Add(this.BTN_Start);
             this.Controls.Add(this.GB_WorkFolder);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "MainWindow";
-            this.Text = "XML Inspector 1.3.0 (25.11.2020)";
+            this.Text = "XML Inspector 1.6.0 (16.03.2022)";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.GB_WorkFolder.ResumeLayout(false);
             this.GB_WorkFolder.PerformLayout();
