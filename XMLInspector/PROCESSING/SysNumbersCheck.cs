@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
@@ -26,6 +23,7 @@ namespace XMLInspector.PROCESSING
         }
         public void ResolveConnection(ref string stmp)
         {
+            bool isConnectionReady = true;
             CurrConn = "Data Source=";
             string LocalConn = Path.Combine(Application.StartupPath, "XMLIN.DB");
             DB_ENGINE Db = new DB_ENGINE();
@@ -54,10 +52,12 @@ namespace XMLInspector.PROCESSING
             else
             {
                 stmp = "Ошибка подключения,0";
-                IsDBAvailable= false;
+                isConnectionReady = false;
             }
             try
             {
+                if (!isConnectionReady)
+                    return; //нахуя подключаться если база недоступна
                 Db.Open(CurrConn);
                 SQLiteCommand cmd = new SQLiteCommand(Db.Conn) { CommandText = "SELECT COUNT(*) FROM SYSNUMS" };
                 stmp = string.Join(",", stmp, cmd.ExecuteScalar().ToString());

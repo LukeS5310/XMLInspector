@@ -13,40 +13,56 @@ namespace XMLInspector.PROCESSING
     {
         public static void CheckVPLDouble(SQLiteConnection Conn,XElement Elem,LOGGING.DoublesList DList, string FileName)
         {
-            SQLiteCommand Cmd = new SQLiteCommand(Conn) { CommandText = "INSERT INTO IMPORT (FILENAME,REFNAME,NVPL) VALUES(@FILENAME,@REFNAME,@NVPL)"};
+            SQLiteCommand Cmd = new SQLiteCommand(Conn) { CommandText = "INSERT INTO IMPORT (FILENAME,REFNAME,NPERS,NVPL,PWVID,QUANTITY) VALUES(@FILENAME,@REFNAME,@NPERS,@NVPL,@PWVID,@QUANTITY)" };
             SQLiteTransaction Transact = Conn.BeginTransaction();
             IEnumerable<XElement> TempElems = from el in Elem.Elements("СведенияОполучателе") select el;
             string RefName="";
+            string npers = "";
             string NVpl = "";
+            string PwVid = "";
+            string QVidVpl = "";
             foreach (XElement el in TempElems)
             {
                
                 RefName = GetRefName(el);
-                NVpl = el.Element("НомерВыплатногоДела")?.Value.ToString() ?? "НЕ НАЙДЕН"; //TRY TO ASSEMBLE NEEDED VALUES
+                npers = el.Element("СтраховойНомер").Value.ToString();
+                NVpl = el.Element("НомерВыплатногоДела").Value.ToString();//TRY TO ASSEMBLE NEEDED VALUES
+                PwVid = el.Element("ВсеВыплаты").Element("Выплата").Element("ВидВыплатыПоПЗ").Value.ToString();
+                QVidVpl = el.Element("ВсеВыплаты").Element("Количество").Value.ToString();
+
+                bool Isnumeric = int.TryParse(NVpl, out int n);
+                if (!Isnumeric)
+                {
+                    DList.AddEntry(RefName, NVpl, npers, PwVid, QVidVpl, FileName);
+                }
                 try
                 {
                     Cmd.Parameters.Add("@FILENAME", DbType.String).Value = FileName;
                     Cmd.Parameters.Add("@REFNAME", DbType.String).Value = RefName;
+                    Cmd.Parameters.Add("@NPERS", DbType.String).Value = npers;
                     Cmd.Parameters.Add("@NVPL", DbType.String).Value = NVpl;
+                    Cmd.Parameters.Add("@PWVID", DbType.String).Value = PwVid;
+                    Cmd.Parameters.Add("@QUANTITY", DbType.String).Value=QVidVpl;
                     Cmd.ExecuteNonQuery();
+
                 }
-                catch (Exception)
+                catch (SQLiteException ex)
                 {
-                    DList.AddEntry(RefName, NVpl, FileName);
-                    GetOrig(Conn, NVpl, DList);
                     continue;
                 }
             }
             Transact.Commit();
-        }
-        private static void GetOrig(SQLiteConnection Conn, string NVpl,LOGGING.DoublesList DList)
+            GetDoubles(Conn, DList); // учитывая новые требования проверки логику пришлось поменять, в самой базе убралась уникальность поля номер выплатного дела, а двойники теперь вытягиваются отдельным запросом
+        } //в идеале если будут следующие требования по доп проверкам, то разделить импорт, и операции над импортированными данными
+       
+        private static void GetDoubles(SQLiteConnection Conn, LOGGING.DoublesList DList)
         {
-            SQLiteCommand cmd = new SQLiteCommand(Conn) { CommandText="SELECT * from IMPORT WHERE NVPL =@NVPL" };
-            cmd.Parameters.Add("@NVPL", DbType.String).Value = NVpl;
+            SQLiteCommand cmd = new SQLiteCommand(Conn) { CommandText= "SELECT * FROM IMPORT AS a WHERE 1 < (SELECT COUNT(*) FROM IMPORT AS b WHERE a.NVPL = b.NVPL AND a.PWVID = b.PWVID)" };
+
             SQLiteDataReader Reader = cmd.ExecuteReader();
             while (Reader.Read())
             {
-                DList.AddEntry(Reader[1].ToString(), Reader[2].ToString(), Reader[0].ToString());
+                DList.AddEntry(Reader[1].ToString(), Reader[3].ToString(),Reader[2].ToString(),Reader[4].ToString(),Reader[5].ToString(), Reader[0].ToString());
             }
         }
         private static string GetRefName(XElement el)

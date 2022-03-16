@@ -16,7 +16,10 @@ namespace XMLInspector.DB
 CREATE TABLE IF NOT EXISTS IMPORT (
     FILENAME   TEXT (128),
     REFNAME    TEXT (128),
-    NVPL       TEXT (16) PRIMARY KEY
+    NPERS      TEXT (128),
+    NVPL       TEXT (16),
+    PWVID      TEXT (16),
+    QUANTITY   TEXT (16)
 );
 ";
         #endregion

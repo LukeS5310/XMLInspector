@@ -14,12 +14,12 @@ namespace XMLInspector.LOGGING
         private string CSVStrings;
         public DoublesList()
         {
-            CSVStrings = "ИМЯ;№ В/Д;ФАЙЛ";
+            CSVStrings = "ИМЯ;№ В/Д;СТРАХОВОЙ_НОМЕР;ВИД_ПО_ПЗ;КОЛИЧЕСТВО_ВЫПЛАТ;ФАЙЛ";
         }
 
-        public void AddEntry(string Name, string VPL,string FileName)
+        public void AddEntry(string Name, string VPL, string npers, string PwVid, string QVidVpl, string FileName)
         {
-            CSVStrings = string.Join("\n",CSVStrings, string.Join(";", Name, VPL, FileName));
+            CSVStrings = string.Join("\n",CSVStrings, string.Join(";", Name, VPL, npers, PwVid, QVidVpl, FileName));
             DoublesFound++;
         }
         private string TimeStamp(bool GiveDate = false, bool IsForFile = false)
