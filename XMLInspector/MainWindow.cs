@@ -96,40 +96,39 @@ namespace XMLInspector
             string SpisPath = "";
             DB.Open();
            
-                foreach  (FileInfo XMLFile in XMLFiles)
+            foreach  (FileInfo XMLFile in XMLFiles)
+            {
+                FileCount++;
+                if (XMLFile.Name.IndexOf("-OPP")!=-1) //ОПИСЬ, пропускаем
                 {
-                    FileCount++;
-                    if (XMLFile.Name.IndexOf("-OPP")!=-1) //ОПИСЬ, пропускаем
+                    continue;
+                }
+                BW_Process.ReportProgress(-1, XMLFile.Name);
+                Logger.LogStartNewFile(XMLFile.FullName);
+                try
+                {
+                    if (SysChecker.IsDBAvailable == true) //check against db of sysnumbers
                     {
-                        continue;
+                        SysChecker.CheckSysDouble(XElement.Load(XMLFile.FullName).XPathSelectElement("ПачкаВходящихДокументов/ВХОДЯЩАЯ_ОПИСЬ/СистемныйНомерМассива")?.Value.ToString() ?? "", Logger, XMLFile.Name);
                     }
-                    BW_Process.ReportProgress(-1, XMLFile.Name);
-                    Logger.LogStartNewFile(XMLFile.FullName);
-                    try
-                    {
-                        if (SysChecker.IsDBAvailable == true) //check against db of sysnumbers
-                        {
-                            SysChecker.CheckSysDouble(XElement.Load(XMLFile.FullName).XPathSelectElement("ПачкаВходящихДокументов/ВХОДЯЩАЯ_ОПИСЬ/СистемныйНомерМассива")?.Value.ToString() ?? "", Logger, XMLFile.Name);
-                        }
-                        string XMLVersion = UTILS.XMLVersionResolver.ResolveXMLVersion(XMLFile.FullName);
-                        Checker.CheckTarget(XElement.Load(XMLFile.FullName,LoadOptions.SetLineInfo), XMLTypeResolver.Resolve(XMLFile.Name,XMLVersion), Logger);
-                        SpisPath = XMLTypeResolver.ResolveSpisPath(XMLFile.Name);
-                        if (SpisPath != null)
-                        {
-                            AdditionalChecks.CheckVPLDouble(DB.Conn, XElement.Load(XMLFile.FullName).XPathSelectElement(SpisPath),DList,XMLFile.Name);
-                            BW_Process.ReportProgress(-2, DList.DoublesFound);
-                        }
-                        
+                    string XMLVersion = UTILS.XMLVersionResolver.ResolveXMLVersion(XMLFile.FullName);
+                    Checker.CheckTarget(XElement.Load(XMLFile.FullName,LoadOptions.SetLineInfo), XMLTypeResolver.Resolve(XMLFile.Name,XMLVersion), Logger);
+                    SpisPath = XMLTypeResolver.ResolveSpisPath(XMLFile.Name);
+                    if (SpisPath != null)
+                        AdditionalChecks.ImportFileToDb(DB.Conn, XElement.Load(XMLFile.FullName).XPathSelectElement(SpisPath),DList,XMLFile.Name);
+
                     }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLogMsg(string.Format("Критическая ошибка при загрузке файла: {0}", ex.Message), true);
-                        
-                    }
-              
-                BW_Process.ReportProgress(FileCount,Logger.ErrsFound);
+                catch (Exception ex)
+                {
+                    Logger.WriteLogMsg(string.Format("Критическая ошибка при загрузке файла: {0}", ex.Message), true);
+                    
                 }
           
+                BW_Process.ReportProgress(FileCount,Logger.ErrsFound);
+            }
+
+            AdditionalChecks.GetDoubles(DB.Conn, DList);
+            BW_Process.ReportProgress(-2, DList.DoublesFound);
             string LastReport = Logger.SaveLogFile();
             DList.SaveFIle();
             if (LastReport != null)
